@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 text-gradient">Customer Analysis</h1>
+        <p class="lead text-muted">Analyze and predict customer retention patterns</p>
+        <hr class="my-4 w-50 mx-auto">
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header bg-gradient-primary text-white text-center py-4">
+                    <h3 class="mb-0"><i class="fas fa-calculator me-2"></i>Analysis Form</h3>
+                </div>
+                <div class="card-body bg-light p-5">
+                    <form method="post" class="needs-validation">
+                        {% csrf_token %}
+                        <div class="row g-4">
+                            {% for field in form %}
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ field|as_crispy_field }}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="text-center mt-5">
+                            <button type="submit" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow">
+                                <i class="fas fa-chart-line me-2"></i>Analyze Data
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        {% if result %}
+        <div class="col-md-8 mt-5">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header bg-gradient-success text-white text-center py-4">
+                    <h3 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Analysis Results</h3>
+                </div>
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <h2 class="display-6 mb-4">Status: 
+                            <span class="badge {% if result.prediction == 'Low Risk' %}bg-success{% else %}bg-danger{% endif %} rounded-pill">
+                                {{ result.prediction }}
+                            </span>
+                        </h2>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="p-4 bg-light rounded-lg text-center shadow-sm">
+                                <div class="circular-progress mb-3" data-value="{{ result.probability }}">
+                                    <div class="progress-value">{{ result.probability|floatformat:1 }}%</div>
+                                </div>
+                                <h4>Risk Level</h4>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-4 bg-light rounded-lg text-center shadow-sm">
+                                <i class="fas fa-shield-alt fa-3x text-success mb-3"></i>
+                                <h4>Confidence Level</h4>
+                                <div class="display-6 text-success">{{ result.confidence }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .text-gradient {
+        background: linear-gradient(45deg, #4e73df 0%, #224abe 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .bg-gradient-primary {
+        background: linear-gradient(45deg, #4e73df 0%, #224abe 100%);
+    }
+    
+    .bg-gradient-success {
+        background: linear-gradient(45deg, #1cc88a 0%, #13855c 100%);
+    }
+    
+    .rounded-lg {
+        border-radius: 1rem !important;
+    }
+    
+    .card {
+        transition: transform 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .btn-primary {
+        background: linear-gradient(45deg, #4e73df 0%, #224abe 100%);
+        border: none;
+        transition: all 0.3s;
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(78, 115, 223, 0.4);
+    }
+    
+    .circular-progress {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: conic-gradient(#4e73df calc(var(--value) * 1%), #e9ecef 0);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+    
+    .circular-progress::before {
+        content: '';
+        position: absolute;
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        background: white;
+    }
+    
+    .progress-value {
+        position: relative;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #4e73df;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-control {
+        border-radius: 0.5rem;
+        padding: 0.75rem 1rem;
+        border: 1px solid #e3e6f0;
+    }
+    
+    .form-control:focus {
+        border-color: #4e73df;
+        box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const circularProgress = document.querySelector('.circular-progress');
+    if (circularProgress) {
+        const value = circularProgress.getAttribute('data-value');
+        circularProgress.style.setProperty('--value', value);
+    }
+});
+</script>
+{% endblock %}

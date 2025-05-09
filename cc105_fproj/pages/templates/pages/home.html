@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-3 text-gradient">Customer Churn Analysis</h1>
+        <p class="lead text-muted mb-4">Advanced machine learning platform for predicting customer behavior</p>
+        <hr class="my-4 w-50 mx-auto">
+    </div>
+
+    <div class="row justify-content-center g-4">
+        <div class="col-md-4">
+            <div class="card feature-card shadow-lg border-0 h-100">
+                <div class="card-body text-center p-5">
+                    <i class="fas fa-chart-line fa-3x text-primary mb-4"></i>
+                    <h3>Predict Churn</h3>
+                    <p class="text-muted">Analyze customer data to predict potential churners</p>
+                    <a href="{% url 'pages:predict' %}" class="btn btn-primary btn-lg rounded-pill mt-3">
+                        Start Analysis <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card feature-card shadow-lg border-0 h-100">
+                <div class="card-body text-center p-5">
+                    <i class="fas fa-chart-pie fa-3x text-success mb-4"></i>
+                    <h3>Analytics Dashboard</h3>
+                    <p class="text-muted">View comprehensive analytics and insights</p>
+                    <a href="{% url 'pages:dashboard' %}" class="btn btn-success btn-lg rounded-pill mt-3">
+                        View Dashboard <i class="fas fa-chart-bar ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-5">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h2 class="mb-4">Ready to get started?</h2>
+                            <p class="lead mb-4">Join us to unlock powerful insights about your customer base.</p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            {% if user.is_authenticated %}
+                            <a href="{% url 'pages:predict' %}" class="btn btn-primary btn-lg rounded-pill">
+                                Start Now <i class="fas fa-rocket ms-2"></i>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'pages:login' %}" class="btn btn-primary btn-lg rounded-pill">
+                                Login <i class="fas fa-sign-in-alt ms-2"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- How It Works Section -->
+<div class="container mt-5 mb-5">
+    <div class="text-center mb-5">
+        <h2 class="display-4 text-gradient">How It Works</h2>
+        <p class="lead text-muted">Understanding our prediction process</p>
+        <hr class="my-4 w-50 mx-auto">
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-3">
+            <div class="process-card text-center p-4">
+                <div class="process-icon mb-4">
+                    <i class="fas fa-database fa-3x text-primary"></i>
+                    <span class="process-number">1</span>
+                </div>
+                <h4>Data Input</h4>
+                <p class="text-muted">Enter customer information and behavioral data</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="process-card text-center p-4">
+                <div class="process-icon mb-4">
+                    <i class="fas fa-cogs fa-3x text-success"></i>
+                    <span class="process-number">2</span>
+                </div>
+                <h4>Analysis</h4>
+                <p class="text-muted">Our ML model processes and analyzes the data</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="process-card text-center p-4">
+                <div class="process-icon mb-4">
+                    <i class="fas fa-chart-bar fa-3x text-info"></i>
+                    <span class="process-number">3</span>
+                </div>
+                <h4>Prediction</h4>
+                <p class="text-muted">Generate accurate churn probability predictions</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="process-card text-center p-4">
+                <div class="process-icon mb-4">
+                    <i class="fas fa-lightbulb fa-3x text-warning"></i>
+                    <span class="process-number">4</span>
+                </div>
+                <h4>Insights</h4>
+                <p class="text-muted">Get actionable insights and recommendations</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add this to your existing style section -->
+<style>
+    .text-gradient {
+        background: linear-gradient(45deg, #4e73df 0%, #224abe 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .feature-card {
+        border-radius: 1rem;
+        transition: transform 0.3s ease;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-10px);
+    }
+    
+    .btn {
+        transition: all 0.3s ease;
+    }
+    
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .btn-success {
+        background: linear-gradient(45deg, #1cc88a 0%, #13855c 100%);
+        border: none;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(45deg, #4e73df 0%, #224abe 100%);
+        border: none;
+    }
+    
+    .process-card {
+        position: relative;
+        border-radius: 1rem;
+        background: white;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .process-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+    
+    .process-icon {
+        position: relative;
+        display: inline-block;
+    }
+    
+    .process-number {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        width: 30px;
+        height: 30px;
+        background: linear-gradient(45deg, #4e73df 0%, #224abe 100%);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+    
+    .text-info {
+        color: #36b9cc !important;
+    }
+    
+    .text-warning {
+        color: #f6c23e !important;
+    }
+</style>
+{% endblock %}

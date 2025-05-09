@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-5 text-gradient">Analytics Dashboard</h1>
+        <p class="lead text-muted">Intelligent customer behavior analysis and prediction platform</p>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-5 text-gradient">Analytics Dashboard</h1>
+        <div class="btn-group">
+            <button class="btn btn-outline-primary">
+                <i class="fas fa-download me-2"></i>Export Data
+            </button>
+            <button class="btn btn-outline-primary">
+                <i class="fas fa-sync-alt me-2"></i>Refresh
+            </button>
+        </div>
+    </div>
+    
+    <!-- Summary Statistics -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card stat-card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="stat-icon bg-primary-subtle">
+                            <i class="fas fa-users fa-2x text-primary"></i>
+                        </div>
+                        <div class="ms-3">
+                            <h6 class="text-muted mb-1">Total Predictions</h6>
+                            <h3 class="mb-0">{{ stats.total_predictions }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="stat-icon bg-success-subtle">
+                            <i class="fas fa-chart-line fa-2x text-success"></i>
+                        </div>
+                        <div class="ms-3">
+                            <h6 class="text-muted mb-1">Approval Rate</h6>
+                            <h3 class="mb-0">{{ stats.approval_rate|floatformat:1 }}%</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="stat-icon bg-info-subtle">
+                            <i class="fas fa-check-circle fa-2x text-info"></i>
+                        </div>
+                        <div class="ms-3">
+                            <h6 class="text-muted mb-1">Confidence</h6>
+                            <h3 class="mb-0">{{ stats.average_confidence|floatformat:2 }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="stat-icon bg-warning-subtle">
+                            <i class="fas fa-clock fa-2x text-warning"></i>
+                        </div>
+                        <div class="ms-3">
+                            <h6 class="text-muted mb-1">Last Updated</h6>
+                            <h3 class="mb-0">Now</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Model Performance -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-0 py-3">
+                    <h4 class="mb-0">Model Performance Metrics</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row g-4">
+                        <div class="col-md-3">
+                            <div class="metric-card text-center p-4 rounded">
+                                <div class="metric-icon mb-3">
+                                    <i class="fas fa-bullseye fa-2x text-primary"></i>
+                                </div>
+                                <h5>Accuracy</h5>
+                                <div class="display-6">{{ model_metrics.accuracy|floatformat:2 }}</div>
+                                <div class="progress mt-3" style="height: 5px;">
+                                    <div class="progress-bar" style="width: {{ model_metrics.accuracy|stringformat:'d' }}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="metric-card text-center p-4 rounded">
+                                <div class="metric-icon mb-3">
+                                    <i class="fas fa-crosshairs fa-2x text-success"></i>
+                                </div>
+                                <h5>Precision</h5>
+                                <div class="display-6">{{ model_metrics.precision|floatformat:2 }}</div>
+                                <div class="progress mt-3" style="height: 5px;">
+                                    <div class="progress-bar bg-success" style="width: {{ model_metrics.precision|stringformat:'d' }}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="metric-card text-center p-4 rounded">
+                                <div class="metric-icon mb-3">
+                                    <i class="fas fa-search fa-2x text-info"></i>
+                                </div>
+                                <h5>Recall</h5>
+                                <div class="display-6">{{ model_metrics.recall|floatformat:2 }}</div>
+                                <div class="progress mt-3" style="height: 5px;">
+                                    <div class="progress-bar bg-info" style="width: {{ model_metrics.recall|stringformat:'d' }}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="metric-card text-center p-4 rounded">
+                                <div class="metric-icon mb-3">
+                                    <i class="fas fa-balance-scale fa-2x text-warning"></i>
+                                </div>
+                                <h5>F1 Score</h5>
+                                <div class="display-6">{{ model_metrics.f1_score|floatformat:2 }}</div>
+                                <div class="progress mt-3" style="height: 5px;">
+                                    <div class="progress-bar bg-warning" style="width: {{ model_metrics.f1_score|stringformat:'d' }}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .text-gradient {
+        background: linear-gradient(45deg, #1a237e 0%, #283593 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .stat-card {
+        transition: transform 0.3s ease;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .metric-card {
+        background: #f8f9fa;
+        transition: all 0.3s ease;
+    }
+    
+    .metric-card:hover {
+        background: #fff;
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .progress {
+        background-color: #e9ecef;
+        border-radius: 10px;
+    }
+    
+    .progress-bar {
+        border-radius: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+    // Render Pie Chart
+    const pieChart = JSON.parse('{{ pie_chart|safe }}');
+    Plotly.newPlot('pie-chart', pieChart.data, pieChart.layout);
+
+    // Render Bar Chart
+    const barChart = JSON.parse('{{ bar_chart|safe }}');
+    Plotly.newPlot('bar-chart', barChart.data, barChart.layout);
+</script>
+{% endblock %}
